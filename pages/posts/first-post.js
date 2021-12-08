@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import Layout from '../../src/components/Layout'
+
+import Alert from '../../src/components/Alert'
 
 export default function FirstPost() {
   return (
@@ -10,6 +11,7 @@ export default function FirstPost() {
       </Head>
 
       <h1>First Post</h1>
+      <Alert type="success">Nice!</Alert>
     </Layout>
   )
 }

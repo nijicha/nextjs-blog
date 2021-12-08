@@ -1,12 +1,13 @@
 import Head from 'next/head'
+import Link from 'next/link'
+
 import Layout, { siteTitle } from '../src/components/Layout'
+import Date from '../src/components/Date'
 import utilStyles from '../styles/utils.module.css'
 
 import { getPostsData } from '../src/lib/api/posts'
 
-export default function Home(props) {
-  const { allPostsData } = props
-
+export default function Home({ allPostsData }) {
   return (
     <Layout isHomePage>
       <Head>
@@ -25,12 +26,14 @@ export default function Home(props) {
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
-              <br />
-              {id}
-              <br />
-              {date}
-            </li>
+            <Link href={`/posts/${id}`}>
+              <a>{title}</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              <Date dateString={date} />
+            </small>
+          </li>
           ))}
         </ul>
       </section>

@@ -2,6 +2,9 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
+import { remark } from 'remark'
+import html from 'remark-html'
+
 const postsDir = path.join(process.cwd(), 'src/lib/api/posts/mock')
 
 export function getPostsData() {
@@ -60,13 +63,18 @@ export function getAllPostsId() {
   })
 }
 
-export function getPostData(id) {
+export async function getPostData(id) {
   const fullPath = path.join(postsDir, `${id}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const matterResult = matter(fileContents)
+  const parsedContent = await remark()
+    .use(html)
+    .process(matterResult.content)
+  const contentHtml = parsedContent.toString()
 
   return {
     id,
+    contentHtml,
     ...matterResult.data
   }
 }
